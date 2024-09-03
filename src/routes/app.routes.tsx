@@ -1,6 +1,7 @@
 import { BottomTabNavigationProp, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Home } from "@screens/Home";
 
+import { Exercises } from "@screens/Exercises";
 import { Profile } from "@screens/Profile";
 import { Barbell, House, UserCircle } from 'phosphor-react-native';
 import { Platform } from "react-native";
@@ -8,7 +9,7 @@ import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
 type AppRoutes = {
   home: undefined
-  exercise: undefined
+  exercises: undefined
   profile: undefined
 }
 
@@ -45,8 +46,8 @@ export function AppRoutes() {
         }}
       />
       <Screen
-        name='exercise'
-        component={Home}
+        name='exercises'
+        component={Exercises}
         options={{
           tabBarIcon: ({ color }) =>
             <Barbell color={color} />
