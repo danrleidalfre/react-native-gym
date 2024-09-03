@@ -1,3 +1,4 @@
+import { ExerciseCard } from "@components/ExerciseCard";
 import { Group } from "@components/Group";
 import { HomeHeader } from "@components/HomeHeader";
 import { Heading, HStack, Text, VStack } from "@gluestack-ui/themed";
@@ -8,6 +9,7 @@ export function Home() {
   const [groupSelected, setGroupSelected] = useState('back');
 
   const groups = ['back', 'chest', 'leg', 'shoulder', 'arm']
+  const exercises = ['Barra Fixa', 'Remada', 'Puxada']
 
   return (
     <VStack flex={1}>
@@ -35,7 +37,7 @@ export function Home() {
         }}
       />
 
-      <VStack px="$8">
+      <VStack px="$8" flex={1}>
         <HStack
           justifyContent="space-between"
           alignItems="center"
@@ -54,9 +56,16 @@ export function Home() {
             fontSize="$sm"
             fontFamily="$body"
           >
-            4
+            {exercises.length}
           </Text>
         </HStack>
+
+        <FlatList
+          data={exercises}
+          renderItem={() => <ExerciseCard />}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        />
       </VStack>
     </VStack>
   )
