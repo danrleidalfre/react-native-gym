@@ -1,12 +1,15 @@
 import { BottomTabNavigationProp, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Home } from "@screens/Home";
 
-import HomeSvg from '@assets/home.svg'
-import { gluestackUIConfig } from "../../config/gluestack-ui.config";
+import HomeSvg from '@assets/home.svg';
+import ProfileSvg from '@assets/profile.svg';
+import { Profile } from "@screens/Profile";
 import { Platform } from "react-native";
+import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
 type AppRoutes = {
   home: undefined
+  account: undefined
 }
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>
@@ -19,7 +22,7 @@ export function AppRoutes() {
 
   return (
     <Navigator
-      screenOptions={{ 
+      screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
         tabBarActiveTintColor: colors.green500,
@@ -37,11 +40,23 @@ export function AppRoutes() {
         name='home'
         component={Home}
         options={{
-          tabBarIcon: () => 
+          tabBarIcon: ({ color }) =>
             <HomeSvg
-              fill={colors.green500}
+              fill={color}
               width={space[6]}
-              height={space[6]} 
+              height={space[6]}
+            />
+        }}
+      />
+      <Screen
+        name='account'
+        component={Profile}
+        options={{
+          tabBarIcon: ({ color }) =>
+            <ProfileSvg
+              fill={color}
+              width={space[6]}
+              height={space[6]}
             />
         }}
       />
