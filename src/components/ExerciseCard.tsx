@@ -1,10 +1,14 @@
-import { Heading, HStack, Icon, Image, Text, VStack } from "@gluestack-ui/themed";
-import { ChevronRight } from "lucide-react-native";
+import { Heading, HStack, Image, Text, VStack } from "@gluestack-ui/themed";
+import { CaretRight } from "phosphor-react-native";
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
 type Props = TouchableOpacityProps
 
 export function ExerciseCard({ ...rest }: Props) {
+  const { tokens } = gluestackUIConfig
+  const { colors } = tokens
+
   return (
     <TouchableOpacity {...rest}>
       <HStack
@@ -41,7 +45,7 @@ export function ExerciseCard({ ...rest }: Props) {
           </Text>
         </VStack>
 
-        <Icon as={ChevronRight} color="$gray300" />
+        <CaretRight color={colors.gray300} />
       </HStack>
     </TouchableOpacity>
   )

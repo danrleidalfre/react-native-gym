@@ -1,15 +1,15 @@
 import { BottomTabNavigationProp, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Home } from "@screens/Home";
 
-import HomeSvg from '@assets/home.svg';
-import ProfileSvg from '@assets/profile.svg';
 import { Profile } from "@screens/Profile";
+import { Barbell, House, UserCircle } from 'phosphor-react-native';
 import { Platform } from "react-native";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
 type AppRoutes = {
   home: undefined
-  account: undefined
+  exercise: undefined
+  profile: undefined
 }
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>
@@ -41,23 +41,23 @@ export function AppRoutes() {
         component={Home}
         options={{
           tabBarIcon: ({ color }) =>
-            <HomeSvg
-              fill={color}
-              width={space[6]}
-              height={space[6]}
-            />
+            <House color={color} />
         }}
       />
       <Screen
-        name='account'
+        name='exercise'
+        component={Home}
+        options={{
+          tabBarIcon: ({ color }) =>
+            <Barbell color={color} />
+        }}
+      />
+      <Screen
+        name='profile'
         component={Profile}
         options={{
           tabBarIcon: ({ color }) =>
-            <ProfileSvg
-              fill={color}
-              width={space[6]}
-              height={space[6]}
-            />
+            <UserCircle color={color} />
         }}
       />
     </Navigator>
