@@ -1,14 +1,17 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { ScreenHeader } from "@components/ScreenHeader";
+import { Toast } from "@components/Toast";
 import { UserPhoto } from "@components/UserPhoto";
-import { Center, Heading, ScrollView, Text, VStack } from "@gluestack-ui/themed";
+import { Center, Heading, ScrollView, Text, useToast, VStack } from "@gluestack-ui/themed";
 import * as FileSystem from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
-import { Alert, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 export function Profile() {
+  const toast = useToast()
+
   const [photo, setPhoto] = useState<string>('https://github.com/danrleidalfre.png')
 
   async function handleUserPhotoSelect() {
@@ -28,7 +31,17 @@ export function Profile() {
       const { size } = await FileSystem.getInfoAsync(uriPhoto) as { size: number }
 
       if (size / 1024 / 1024 > 5) {
-        return Alert.alert('A imagem deve ser no máximo de 5MB.')
+        return toast.show({
+          placement: 'top',
+          render: ({ id }) => (
+            <Toast
+              id={id}
+              title="Tamanho deve ser no máximo de 5MB."
+              action="error"
+              onClose={() => toast.close(id)}
+            />
+          )
+        })
       }
 
       setPhoto(uriPhoto)
