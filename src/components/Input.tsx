@@ -3,18 +3,22 @@ import { ComponentProps } from 'react'
 
 type Props = ComponentProps<typeof InputField> & {
   isReadOnly?: boolean
+  isInvalid?: boolean
 }
 
-export function Input({ isReadOnly = false, ...rest }: Props) {
+export function Input({ isReadOnly = false, isInvalid = false, ...rest }: Props) {
   return (
     <GluestackInput
+      isInvalid={isInvalid}
       h='$14'
       borderWidth='$1'
       borderColor='transparent'
       borderRadius='$md'
       $focus={{
-        borderWidth: 1,
-        borderColor: '$green500'
+        borderColor: isInvalid ? '$red500' : '$green500'
+      }}
+      $invalid={{
+        borderColor: '$red500'
       }}
       isReadOnly={isReadOnly}
       isDisabled={isReadOnly}
