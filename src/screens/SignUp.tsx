@@ -41,19 +41,26 @@ export function SignUp() {
 		try {
 			const { data } = await api.post('/users', { name, email, password })
 		} catch (error) {
+			let errorMessage = 'Entre em contato com o suporte.';
+
+			if (error instanceof AppError) {
+				errorMessage = error.message;
+			}
+
 			toast.show({
 				placement: 'top',
 				render: ({ id }) => (
 					<Toast
 						id={id}
-						title={error instanceof AppError ? error.message : 'Entre em contato com o suporte.'}
+						title={errorMessage}
 						action="error"
 						onClose={() => toast.close(id)}
 					/>
 				)
-			})
+			});
 		}
 	}
+
 
 	return (
 		<ScrollView
