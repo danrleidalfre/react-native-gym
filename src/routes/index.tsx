@@ -8,12 +8,10 @@ import { AuthRoutes } from "./auth.routes";
 export function Routes() {
   const { user } = useAuth()
 
-  console.log(user);
-
   const theme = DefaultTheme
   theme.colors.background = gluestackUIConfig.tokens.colors.gray700
 
-  const isAuthenticated = false
+  const isAuthenticated = user.id
 
   return (
     <Box flex={1} bg='$gray700'>
