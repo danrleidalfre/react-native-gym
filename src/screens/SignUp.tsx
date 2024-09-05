@@ -1,4 +1,4 @@
-import { Center, Heading, Image, ScrollView, Text, VStack } from "@gluestack-ui/themed";
+import { Center, Heading, Image, ScrollView, Text, useToast, VStack } from "@gluestack-ui/themed";
 
 import bg from '@assets/background.png';
 import Logo from '@assets/logo.svg';
@@ -8,7 +8,10 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import { Controller, useForm } from "react-hook-form";
 
+import { Toast } from "@components/Toast";
 import { yupResolver } from '@hookform/resolvers/yup';
+import { api } from "@services/api";
+import { AppError } from "@utils/AppError";
 import * as yup from 'yup';
 
 const signUpSchema = yup.object({
@@ -23,7 +26,9 @@ const signUpSchema = yup.object({
 type FormProps = yup.InferType<typeof signUpSchema>;
 
 export function SignUp() {
+	const toast = useToast()
 	const navigation = useNavigation<AuthNavigatorRoutesProps>()
+
 	const { control, handleSubmit, formState: { errors } } = useForm<FormProps>({
 		resolver: yupResolver(signUpSchema)
 	})
@@ -32,8 +37,22 @@ export function SignUp() {
 		navigation.goBack()
 	}
 
-	function handleSignUp(form: FormProps) {
-		console.log(form)
+	async function handleSignUp({ name, email, password }: FormProps) {
+		try {
+			const { data } = await api.post('/users', { name, email, password })
+		} catch (error) {
+			toast.show({
+				placement: 'top',
+				render: ({ id }) => (
+					<Toast
+						id={id}
+						title={error instanceof AppError ? error.message : 'Entre em contato com o suporte.'}
+						action="error"
+						onClose={() => toast.close(id)}
+					/>
+				)
+			})
+		}
 	}
 
 	return (
