@@ -5,9 +5,10 @@ import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { UserPhoto } from "./UserPhoto";
 
 import defaultImage from '@assets/userPhotoDefault.png';
+import { TouchableOpacity } from "react-native";
 
 export function HomeHeader() {
-  const { user } = useAuth()
+  const { user, signOut } = useAuth()
 
   const { tokens } = gluestackUIConfig
   const { colors } = tokens
@@ -34,7 +35,9 @@ export function HomeHeader() {
         <Text color="$gray100" fontSize="$sm">Olá</Text>
         <Heading color="$gray100" fontSize="$md">{name}</Heading>
       </VStack>
-      <SignOut color={colors.gray200} />
+      <TouchableOpacity onPress={signOut}>
+        <SignOut color={colors.gray200} />
+      </TouchableOpacity>
     </HStack>
   )
 }

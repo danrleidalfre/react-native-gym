@@ -8,8 +8,10 @@ export async function saveUser(user: UserDTO) {
 
 export async function getUser() {
   const storage = await AsyncStorage.getItem(USER_STORAGE)
-
   const user: UserDTO = storage ? JSON.parse(storage) : {}
-
   return user
+}
+
+export async function removeUser() {
+  await AsyncStorage.removeItem(USER_STORAGE)
 }
