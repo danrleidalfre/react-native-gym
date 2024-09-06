@@ -1,11 +1,20 @@
 import { Heading, HStack, Text, VStack } from "@gluestack-ui/themed";
+import { useAuth } from "@hooks/useAuth";
 import { SignOut } from "phosphor-react-native";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { UserPhoto } from "./UserPhoto";
 
+import defaultImage from '@assets/userPhotoDefault.png';
+
 export function HomeHeader() {
+  const { user } = useAuth()
+
   const { tokens } = gluestackUIConfig
   const { colors } = tokens
+
+  const { name, avatar } = user
+  const image = avatar ? { uri: avatar } : defaultImage
+
 
   return (
     <HStack bg="$gray600"
@@ -16,14 +25,14 @@ export function HomeHeader() {
       alignItems="center"
     >
       <UserPhoto
-        source={{ uri: 'https://github.com/danrleidalfre.png' }}
+        source={image}
         w="$16"
         h="$16"
         alt="Imagem do usuário"
       />
       <VStack flex={1}>
         <Text color="$gray100" fontSize="$sm">Olá</Text>
-        <Heading color="$gray100" fontSize="$md">Danrlei</Heading>
+        <Heading color="$gray100" fontSize="$md">{name}</Heading>
       </VStack>
       <SignOut color={colors.gray200} />
     </HStack>
