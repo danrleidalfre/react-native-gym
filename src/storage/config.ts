@@ -1,3 +1,8 @@
 const USER_STORAGE = '@gym:user'
+const TOKEN_STORAGE = '@gym:token'
 
-export { USER_STORAGE }
+export {
+  TOKEN_STORAGE,
+  USER_STORAGE
+}
+
