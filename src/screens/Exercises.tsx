@@ -1,15 +1,43 @@
 import { ExerciseCard } from "@components/ExerciseCard";
 import { Group } from "@components/Group";
 import { ScreenHeader } from "@components/ScreenHeader";
+import { ExerciseDTO } from "@dtos/ExerciseDTO";
 import { Heading, HStack, Text, VStack } from "@gluestack-ui/themed";
-import { useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { api } from "@services/api";
+import { useCallback, useEffect, useState } from "react";
 import { FlatList } from "react-native";
 
 export function Exercises() {
-  const [groupSelected, setGroupSelected] = useState('back');
+  const [groups, setGroups] = useState<string[]>([])
+  const [exercises, setExercises] = useState<ExerciseDTO[]>([])
+  const [groupSelected, setGroupSelected] = useState('');
 
-  const groups = ['back', 'chest', 'leg', 'shoulder', 'arm']
-  const exercises = ['Barra Fixa', 'Remada', 'Puxada']
+  async function fetchGroups() {
+    try {
+      const { data } = await api.get('/groups')
+      setGroups(data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function fetchExercisesByGroup() {
+    try {
+      const { data } = await api.get(`/exercises/bygroup/${groupSelected}`)
+      setExercises(data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchGroups()
+  }, [])
+
+  useFocusEffect(useCallback(() => {
+    fetchExercisesByGroup()
+  }, [groupSelected]))
 
   return (
     <VStack flex={1}>
@@ -62,7 +90,7 @@ export function Exercises() {
 
         <FlatList
           data={exercises}
-          renderItem={() => <ExerciseCard />}
+          renderItem={({ item }) => <ExerciseCard exercise={item} />}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 20 }}
         />

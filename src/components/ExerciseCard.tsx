@@ -1,11 +1,15 @@
+import { ExerciseDTO } from "@dtos/ExerciseDTO";
 import { Heading, HStack, Image, Text, VStack } from "@gluestack-ui/themed";
+import { api } from "@services/api";
 import { CaretRight } from "phosphor-react-native";
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
-type Props = TouchableOpacityProps
+type Props = TouchableOpacityProps & {
+  exercise: ExerciseDTO
+}
 
-export function ExerciseCard({ ...rest }: Props) {
+export function ExerciseCard({ exercise, ...rest }: Props) {
   const { tokens } = gluestackUIConfig
   const { colors } = tokens
 
@@ -19,7 +23,7 @@ export function ExerciseCard({ ...rest }: Props) {
         mb="$3"
       >
         <Image
-          source={{ uri: 'https://static.wixstatic.com/media/2edbed_60c206e178ad4eb3801f4f47fc6523df~mv2.webp' }}
+          source={{ uri: `${api.defaults.baseURL}/exercise/thumb/${exercise.thumb}` }}
           alt=""
           w="$16"
           h="$16"
@@ -34,14 +38,14 @@ export function ExerciseCard({ ...rest }: Props) {
             color="$white"
             fontFamily="$heading"
           >
-            Barra Fixa
+            {exercise.name}
           </Heading>
           <Text
             fontSize="$sm"
             color="$gray200"
             mt="$1"
           >
-            3 séries x 12 repetições
+            {exercise.series} séries x {exercise.repetitions} repetições
           </Text>
         </VStack>
 
